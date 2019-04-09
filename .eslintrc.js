@@ -13,7 +13,8 @@ module.exports = {
     ecmaVersion: 2018
   },
   rules: {
-    'prettier/prettier': 'warn'
+    'prettier/prettier': 'warn',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   },
   plugins: ['prettier']
 };

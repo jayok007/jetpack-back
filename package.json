@@ -15,6 +15,7 @@
     "stryker-cli": "^1.0.0"
   },
   "scripts": {
+    "lint": "eslint . --fix",
     "start": "pm2 start process.json --attach",
     "start.ci": "pm2 start process.json",
     "stop": "pm2 stop process.json",
