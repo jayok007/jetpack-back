@@ -11,7 +11,7 @@ describe('jetpack.router', () => {
   let jetpacks = ['test'];
 
   beforeEach(() => {
-    jetpackRepository.findAll = () => jetpacks;
+    jetpackRepository.getAll = () => jetpacks;
   });
 
   it('should retrieve the jetpacks list', async () => {
