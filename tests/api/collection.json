@@ -1,0 +1,68 @@
+{
+	"info": {
+		"_postman_id": "b200ec3b-775c-449a-aa83-ddab05a68afe",
+		"name": "Ensiie Test Back",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a Jet Pack",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "29cc937c-0294-49cd-ba3e-31f7b5f41eac",
+						"exec": [
+							"pm.globals.set('url', 'http://localhost:3000')"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4cffee8b-566b-4c46-aa99-e2b76d4487bc",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Json bdy has information\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"Jet Pack à fusion X98371\");",
+							"    pm.expect(jsonData.image).to.eql(\"Base 64 ...\");",
+							"    pm.globals.set('jetpack.id', jsonData.id)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"Jet Pack à fusion X98371\",\n\t\"image\": \"Base 64 ...\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/jetpacks",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"jetpacks"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

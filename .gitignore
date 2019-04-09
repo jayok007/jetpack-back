@@ -1,0 +1,7 @@
+node_modules
+package-lock.json
+.idea
+coverage
+npm-debug.log
+reports
+db.json
