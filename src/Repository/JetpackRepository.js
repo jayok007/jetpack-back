@@ -14,7 +14,11 @@ module.exports = class {
 
     this.db
       .get('jetpacks')
-      .push(jetpack.toJson())
+      .push(jetpack)
       .write();
+  }
+
+  getAll() {
+    return this.db.get('jetpacks').value();
   }
 };
