@@ -21,8 +21,6 @@
 							"",
 							"const jsonData = JSON.parse(responseBody);",
 							"",
-							"console.log(jsonData.length)",
-							"",
 							"tests[\"Check totalItems > 0\"] = jsonData.length === 2;",
 							"",
 							"tests[\"Checking the first title\"] = jsonData[0].name === \"Jetpack Fortnite Wiki\";",
