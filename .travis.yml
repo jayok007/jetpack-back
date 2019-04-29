@@ -1,12 +1,17 @@
 language: node_js
-node_js:
-  - "node"
 
-before_install:
-  - npm install
-  - npm run start.ci
+node_js: '10'
+
+cache: npm
+
+install:
+  - npm ci
+  - npm install -g codecov
 
 script:
-  - npm run unit.test.coverage
-  - npm run unit.test.mutation
-  - node_modules/.bin/newman run tests/api/collection.json
+  - npm run test:unit
+  - npm run test:mut
+  - npm run test:api
+
+after_success:
+  - codecov
