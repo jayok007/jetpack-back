@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 const app = express();
 const jetpackRouter = require('./jetpack/jetpackRouter');
 const JetpackRepository = require('./jetpack/JetpackRepository');
@@ -10,6 +11,7 @@ const jetpackRepository = new JetpackRepository(db);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(morgan('dev'));
 app.use('/api', jetpackRouter(jetpackRepository));
 
 app.listen(PORT, () => {
