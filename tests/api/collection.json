@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "8b508d46-ba03-4930-8e64-dadc0d8f97cd",
-		"name": "jetpack-bac",
+		"name": "jetpack-back",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
