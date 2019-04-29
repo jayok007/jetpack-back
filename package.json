@@ -7,11 +7,11 @@
   "license": "ISC",
   "scripts": {
     "lint": "eslint . --fix",
-    "start": "node app",
-    "dev": "node-dev --no-notify app",
+    "start": "node src/app",
+    "dev": "node-dev --no-notify src/app",
     "test:unit": "jest --coverage",
     "test:mut": "stryker run",
-    "test:api": "start-server-and-test start http://localhost:3000/jetpacks \"newman run tests/api/collection.json\""
+    "test:api": "start-server-and-test start http://localhost:3000/api/jetpacks \"newman run tests/api/collection.json\""
   },
   "dependencies": {
     "express": "^4.16.4",
@@ -31,6 +31,7 @@
     "newman": "^4.4.1",
     "node-dev": "^4.0.0",
     "prettier": "^1.16.4",
+    "supertest": "^4.0.2",
     "start-server-and-test": "^1.9.0"
   },
   "jest": {
