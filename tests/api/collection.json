@@ -1,63 +1,54 @@
 {
 	"info": {
-		"_postman_id": "b200ec3b-775c-449a-aa83-ddab05a68afe",
-		"name": "Ensiie Test Back",
+		"_postman_id": "8b508d46-ba03-4930-8e64-dadc0d8f97cd",
+		"name": "jetpack-bac",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Create a Jet Pack",
+			"name": "http://localhost:3000/api/jetpacks",
 			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "29cc937c-0294-49cd-ba3e-31f7b5f41eac",
-						"exec": [
-							"pm.globals.set('url', 'http://localhost:3000')"
-						],
-						"type": "text/javascript"
-					}
-				},
 				{
 					"listen": "test",
 					"script": {
-						"id": "4cffee8b-566b-4c46-aa99-e2b76d4487bc",
+						"id": "f81dee60-c3f4-4d4a-a491-94e65f7a118c",
 						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});",
+							"tests['Status code is 200'] = pm.response.to.have.status(200);",
 							"",
-							"pm.test(\"Json bdy has information\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.name).to.eql(\"Jet Pack à fusion X98371\");",
-							"    pm.expect(jsonData.image).to.eql(\"Base 64 ...\");",
-							"    pm.globals.set('jetpack.id', jsonData.id)",
-							"});"
+							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"",
+							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
+							"",
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"console.log(jsonData.length)",
+							"",
+							"tests[\"Check totalItems > 0\"] = jsonData.length === 2;",
+							"",
+							"tests[\"Checking the first title\"] = jsonData[0].name === \"Jetpack Fortnite Wiki\";",
+							"",
+							"tests[\"Checking the second title\"] = jsonData[1].name === \"Jetpack JackTalior\";"
 						],
 						"type": "text/javascript"
 					}
 				}
 			],
 			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
+				"method": "GET",
+				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\":\"Jet Pack à fusion X98371\",\n\t\"image\": \"Base 64 ...\"\n}"
+					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/jetpacks",
+					"raw": "http://localhost:3000/api/jetpacks",
+					"protocol": "http",
 					"host": [
-						"{{url}}"
+						"localhost"
 					],
+					"port": "3000",
 					"path": [
+						"api",
 						"jetpacks"
 					]
 				}

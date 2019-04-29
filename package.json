@@ -11,7 +11,7 @@
     "dev": "node-dev --no-notify app",
     "test:unit": "jest --coverage",
     "test:mut": "stryker run",
-    "test:api": "start-server-and-test start http://localhost:3000/jetpacks \"newman run tests/api/collection.json\""
+    "test:api": "start-server-and-test start http://localhost:3000/api/jetpacks \"newman run tests/api/collection.json\""
   },
   "dependencies": {
     "express": "^4.16.4",
