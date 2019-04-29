@@ -6,6 +6,13 @@ class JetpackRepository {
   getAll() {
     return this.db.get('jetpacks').value();
   }
+
+  createOne(jetpack) {
+    this.db
+      .get('jetpacks')
+      .push(jetpack)
+      .write();
+  }
 }
 
 module.exports = JetpackRepository;
