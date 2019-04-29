@@ -1,22 +1,14 @@
 const request = require('supertest');
-const jetpacksRouter = require('../../routers/jetpacks');
-const jetpackRepository = require('../../src/Repository/JetpackRepository');
+const jetpacksRouter = require('../../src/jetpack/jetpackRouter');
 const app = require('express')();
 
-jest.mock('../../src/Repository/JetpackRepository');
+const mockRepository = { getAll: () => ['test'] };
+app.use('/', jetpacksRouter(mockRepository));
 
-app.use('/api', jetpacksRouter);
-
-describe('jetpack.router', () => {
-  let jetpacks = ['test'];
-
-  beforeEach(() => {
-    jetpackRepository.prototype.getAll = () => jetpacks;
-  });
-
+describe('Jetpack router', () => {
   it('should retrieve the jetpacks list', async () => {
-    const res = await request(app).get('/api/jetpacks');
+    const res = await request(app).get('/jetpacks');
 
-    expect(res.body).toEqual(jetpacks);
+    expect(res.body).toEqual(['test']);
   });
 });
