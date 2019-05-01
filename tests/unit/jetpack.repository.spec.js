@@ -1,4 +1,7 @@
 const JetpackRepository = require('../../src/jetpack/JetpackRepository');
+const uuid = require('uuid');
+
+jest.mock('uuid');
 
 describe('Jetpack repository', () => {
   const jetpacks = [{ id: 1, name: 'Toto' }, { id: 2, name: 'Tata' }];
@@ -13,6 +16,7 @@ describe('Jetpack repository', () => {
       value: () => jetpacks
     };
     repository = new JetpackRepository(dbMock);
+    uuid.mockReturnValue('my-id');
   });
 
   it('should retreive the jetpacks', () => {
@@ -21,13 +25,15 @@ describe('Jetpack repository', () => {
   });
 
   it('should create a jetpack', () => {
-    repository.createOne({
+    const jetpack = repository.createOne({
       name: 'Test',
       image: 'Image'
     });
 
-    expect(dbMock.get).toHaveBeenCalledWith('jetpacks');
-    expect(dbMock.push).toHaveBeenCalledWith({ name: 'Test', image: 'Image' });
-    expect(dbMock.write).toHaveBeenCalled();
+    expect(jetpack).toEqual({
+      id: 'my-id',
+      name: 'Test',
+      image: 'Image'
+    });
   });
 });

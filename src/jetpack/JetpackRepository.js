@@ -1,3 +1,4 @@
+const uuid = require('uuid');
 class JetpackRepository {
   constructor(db) {
     this.db = db;
@@ -7,11 +8,19 @@ class JetpackRepository {
     return this.db.get('jetpacks').value();
   }
 
-  createOne(jetpack) {
+  createOne({ name, image }) {
+    const newJetPack = {
+      id: uuid(),
+      name,
+      image
+    };
+
     this.db
       .get('jetpacks')
-      .push(jetpack)
+      .push(newJetPack)
       .write();
+
+    return newJetPack;
   }
 }
 
