@@ -4,3 +4,4 @@ coverage
 npm-debug.log
 reports
 .stryker-tmp
+*.DS_Store
