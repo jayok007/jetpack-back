@@ -1,10 +1,221 @@
 {
 	"info": {
-		"_postman_id": "8b508d46-ba03-4930-8e64-dadc0d8f97cd",
+		"_postman_id": "2b6ba665-14e0-4c26-bf38-db28e97086f3",
 		"name": "jetpack-back",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Jetpack creation with data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dba4c7e5-bc95-40c2-8f4c-6e34765f196d",
+						"exec": [
+							"// The newJetPack object is only here for reference and further tests. To modify the data sent to the API, modify both here and the raw data in the body section",
+							"const newJetPack = { ",
+							"    name: 'APImekPack',",
+							"    image:'TESTB64STRING',",
+							"};",
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"tests['Status code is 201'] = pm.response.to.have.status(201);",
+							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
+							"tests[\"JSON response is not empty\"] = Object.keys(jsonData).length !== 0 && jsonData.constructor === Object;",
+							"tests[\"A new id has been generated\"] =  jsonData.hasOwnProperty('id') === true;",
+							"tests[\"JetPack Properties integrity\"] = jsonData.name === newJetPack.name && jsonData.image === newJetPack.image",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"APImekPack\",\n    \"image\": \"TESTB64STRING\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/jetpacks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"jetpacks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Jetpack creation with data [name only]",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dba4c7e5-bc95-40c2-8f4c-6e34765f196d",
+						"exec": [
+							"// The newJetPack object is only here for reference and further tests. To modify the data sent to the API, modify both here and the raw data in the body section",
+							"const newJetPack = { ",
+							"    name: 'APImekPack',",
+							"};",
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"tests['Status code is 400'] = pm.response.to.have.status(400);",
+							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
+							"tests[\"JSON response is not empty\"] = Object.keys(jsonData).length !== 0 && jsonData.constructor === Object;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"APImekPack\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/jetpacks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"jetpacks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Jetpack creation with data [image only]",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dba4c7e5-bc95-40c2-8f4c-6e34765f196d",
+						"exec": [
+							"// The newJetPack object is only here for reference and further tests. To modify the data sent to the API, modify both here and the raw data in the body section",
+							"const newJetPack = { ",
+							"        image: \"TESTB64STRING\"",
+							"};",
+							"",
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"tests['Status code is 400'] = pm.response.to.have.status(400);",
+							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
+							"tests[\"JSON response is not empty\"] = Object.keys(jsonData).length !== 0 && jsonData.constructor === Object;",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"image\": \"TESTB64STRING\"\n\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/jetpacks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"jetpacks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Jetpack creation without data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dba4c7e5-bc95-40c2-8f4c-6e34765f196d",
+						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"tests['Status code is 400'] = pm.response.to.have.status(400);",
+							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
+							"tests[\"JSON response is not empty\"] = Object.keys(jsonData).length !== 0 && jsonData.constructor === Object;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/jetpacks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"jetpacks"
+					]
+				}
+			},
+			"response": []
+		},
 		{
 			"name": "http://localhost:3000/api/jetpacks",
 			"event": [
@@ -21,7 +232,7 @@
 							"",
 							"const jsonData = JSON.parse(responseBody);",
 							"",
-							"tests[\"Check totalItems > 0\"] = jsonData.length === 2;",
+							"tests[\"Check totalItems > 0\"] = jsonData.length > 0;",
 							"",
 							"tests[\"Checking the first title\"] = jsonData[0].name === \"Jetpack Fortnite Wiki\";",
 							"",
