@@ -1,11 +1,8 @@
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
+const Memory = require('lowdb/adapters/Memory');
 
-const adapter = new FileSync('db.json');
+const adapter =
+  process.env.NODE_ENV === 'test' ? new Memory() : new FileSync('db.json');
 
-const db = low(adapter);
-
-// Set some defaults
-db.defaults({ jetpacks: [] }).write();
-
-module.exports = db;
+module.exports = () => low(adapter);

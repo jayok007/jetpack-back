@@ -35,5 +35,12 @@ describe('Jetpack repository', () => {
       name: 'Test',
       image: 'Image'
     });
+    expect(dbMock.get).toHaveBeenCalledWith('jetpacks');
+    expect(dbMock.push).toHaveBeenCalledWith({
+      id: 'my-id',
+      name: 'Test',
+      image: 'Image'
+    });
+    expect(dbMock.write).toHaveBeenCalled();
   });
 });
