@@ -24,13 +24,7 @@ class JetpackRepository {
   }
 
   updateOne({ id, name, image }) {
-    const updatedJetpack = {
-      id,
-      name,
-      image
-    };
-
-    this.db
+    const [updatedJetpack] = this.db
       .get('jetpacks')
       .find({ id })
       .assign({ name, image })

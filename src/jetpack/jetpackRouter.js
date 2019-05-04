@@ -21,5 +21,13 @@ module.exports = jetpackRepository => {
     res.status(201).send(jetpack);
   });
 
+  jetpacks.put('/jetpacks/:id', validateJetpack, (req, res) => {
+    const updatedJetpack = jetpackRepository.updateOne({
+      id: req.params.id,
+      ...req.body
+    });
+    res.status(200).send(updatedJetpack);
+  });
+
   return jetpacks;
 };

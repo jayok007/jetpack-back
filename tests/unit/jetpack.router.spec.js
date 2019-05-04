@@ -12,7 +12,8 @@ const mockRepository = {
       name,
       image
     };
-  }
+  },
+  updateOne: jetpack => jetpack
 };
 
 mockApp.use(express.json());
@@ -37,9 +38,30 @@ describe('Jetpack router', () => {
       });
   });
 
-  it('can not create an empty jetpack', async () => {
+  it('should not create an empty jetpack', async () => {
     await request(mockApp)
       .post('/jetpacks')
+      .expect(400);
+  });
+
+  it('should update an existing jetpack', async () => {
+    await request(mockApp)
+      .put('/jetpacks/my-id')
+      .send({ name: 'updatedName', image: 'updatedImage' })
+      .expect(200, { id: 'my-id', name: 'updatedName', image: 'updatedImage' });
+  });
+
+  it('should not update a jetpack with no name', async () => {
+    await request(mockApp)
+      .put('/jetpacks/my-id')
+      .send({ image: 'updatedImage' })
+      .expect(400);
+  });
+
+  it('should not update a jetpack with no image', async () => {
+    await request(mockApp)
+      .put('/jetpacks/my-id')
+      .send({ name: 'updatedName' })
       .expect(400);
   });
 });
