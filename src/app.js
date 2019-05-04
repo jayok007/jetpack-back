@@ -8,7 +8,7 @@ const JetpackRepository = require('./jetpack/JetpackRepository');
 const db = require('./db');
 
 const PORT = process.env.PORT || 3000;
-const jetpackRepository = new JetpackRepository(db);
+const jetpackRepository = new JetpackRepository(db());
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
