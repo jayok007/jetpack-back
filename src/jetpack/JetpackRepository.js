@@ -22,6 +22,22 @@ class JetpackRepository {
 
     return newJetPack;
   }
+
+  updateOne({ id, name, image }) {
+    const updatedJetpack = {
+      id,
+      name,
+      image
+    };
+
+    this.db
+      .get('jetpacks')
+      .find({ id })
+      .assign({ name, image })
+      .write();
+
+    return updatedJetpack;
+  }
 }
 
 module.exports = JetpackRepository;
