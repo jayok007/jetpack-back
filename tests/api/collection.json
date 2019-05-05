@@ -405,6 +405,55 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Update a jetpack",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3d435e78-f79e-4efe-8846-17f593f731cb",
+						"exec": [
+							"tests['Status code is 200'] = pm.response.to.have.status(200);",
+							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
+							"const jsonData = JSON.parse(responseBody);",
+							"tests[\"Checking the first title\"] = jsonData.name === \"Tesla Jetpack\";",
+							"tests[\"Checking image modification\"] = jsonData.image === \"i'am ffffu\";",
+							"tests[\"Check totalItems > 0\"] = jsonData.bookings.length > 1;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Tesla Jetpack\",\n\t\"image\": \"i'am ffffu\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/jetpacks/a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"jetpacks",
+						"a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

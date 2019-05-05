@@ -29,24 +29,11 @@ describe('Jetpack repository', () => {
       write: jest.fn(),
       value: () => jetpacks
     };
-    const repository = new JetpackRepository(dbMock);
-
-    expect(repository.getAll()).toEqual([
-      { id: 1, name: 'Toto' },
-      { id: 2, name: 'Tata' }
-    ]);
-    expect(dbMock.get).toHaveBeenCalledWith('jetpacks');
+    repository = new JetpackRepository(dbMock);
+    uuid.mockReturnValue('my-id');
   });
 
   it('should create a jetpack', () => {
-    const dbMock = {
-      get: jest.fn(() => dbMock),
-      push: jest.fn(() => dbMock),
-      write: jest.fn()
-    };
-    uuid.mockReturnValue('my-id');
-    const repository = new JetpackRepository(dbMock);
-
     const jetpack = repository.createOne({
       name: 'Test',
       image: 'Image'
@@ -130,26 +117,12 @@ describe('Jetpack repository', () => {
   });
 
   it('should update an existing jetpack', () => {
-    const dbMock = {
-      get: jest.fn(() => dbMock),
-      find: jest.fn(() => dbMock),
-      assign: jest.fn(() => dbMock),
-      write: jest.fn(() => ['test'])
-    };
     const repository = new JetpackRepository(dbMock);
 
-    const updated = repository.updateOne({
-      id: '1',
-      name: 'Test',
-      image: 'Image'
-    });
+    repository.updateOne('1', 'name', 'randomName');
 
     expect(dbMock.get).toHaveBeenCalledWith('jetpacks');
     expect(dbMock.find).toHaveBeenCalledWith({ id: '1' });
-    expect(dbMock.assign).toHaveBeenCalledWith({
-      name: 'Test',
-      image: 'Image'
-    });
-    expect(updated).toBe('test');
+    expect(dbMock.assign).toHaveBeenCalledWith({ name: 'randomName' });
   });
 });

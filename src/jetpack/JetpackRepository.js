@@ -1,5 +1,6 @@
 const uuid = require('uuid');
 const moment = require('moment');
+
 class JetpackRepository {
   constructor(db) {
     this.db = db;
@@ -26,15 +27,17 @@ class JetpackRepository {
   }
 
   updateOne(id, key, value) {
+    var changes = {};
+    changes[key] = value;
+
     const updatedJetpack = this.db
       .get('jetpacks')
       .find({ id })
-      .assign({ key: value })
-      .value();
+      .assign(changes)
+      .write();
 
     return updatedJetpack;
   }
-}
 
   checkDate(startDate, endDate) {
     return moment(startDate).isBefore(moment(endDate), 'day');

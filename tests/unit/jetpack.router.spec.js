@@ -28,14 +28,21 @@ const mockRepository = {
     };
   },
   get: id => {
-    if (id == 1)
+    if (id == '1')
       return {
         id: id,
         name: 'Jetpack Luxe',
         image: '',
         bookings: []
       };
-    else return undefined;
+    else if (id == 'my-id') {
+      return {
+        id: 'my-id',
+        name: 'updatedName',
+        image: 'updatedImage',
+        bookings: []
+      };
+    } else return undefined;
   },
   checkDate: (startDate, endDate) => {
     return moment(startDate).isBefore(moment(endDate));
@@ -79,21 +86,26 @@ describe('Jetpack router', () => {
     await request(mockApp)
       .put('/jetpacks/my-id')
       .send({ name: 'updatedName', image: 'updatedImage' })
-      .expect(200, { id: 'my-id', name: 'updatedName', image: 'updatedImage' });
+      .expect(200, {
+        id: 'my-id',
+        name: 'updatedName',
+        image: 'updatedImage',
+        bookings: []
+      });
   });
 
-  it('should not update a jetpack with no name', async () => {
+  it('should update a jetpack with no name', async () => {
     await request(mockApp)
       .put('/jetpacks/my-id')
       .send({ image: 'updatedImage' })
-      .expect(400);
+      .expect(200);
   });
 
-  it('should not update a jetpack with no image', async () => {
+  it('should update a jetpack with image', async () => {
     await request(mockApp)
       .put('/jetpacks/my-id')
       .send({ name: 'updatedName' })
-      .expect(400);
+      .expect(200);
   });
   it('should add a booking to a jetpack', async () => {
     await request(mockApp)
