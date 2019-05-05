@@ -296,7 +296,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"id_jetpack\": \"a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d\",\n\t\"date_start\": \"2013-03-10\",\n\t\"date_end\": \"2013-03-11\"\n}"
+					"raw": "{\n\t\"id_jetpack\": \"a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d\",\n\t\"date_start\": \"2013-03-20\",\n\t\"date_end\": \"2013-03-25\"\n}"
 				},
 				"url": {
 					"raw": "localhost:3000/api/jetpacks/booking",
@@ -343,7 +343,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"id_jetpack\": \"a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d\",\n\t\"date_start\": \"2013-03-20\",\n\t\"date_end\": \"2013-03-25\"\n}"
+					"raw": "{\n\t\"id_jetpack\": \"a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d\",\n\t\"date_start\": \"2013-03-10\",\n\t\"date_end\": \"2013-03-11\"\n}"
 				},
 				"url": {
 					"raw": "localhost:3000/api/jetpacks/booking",
