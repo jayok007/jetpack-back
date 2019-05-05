@@ -26,7 +26,7 @@ class JetpackRepository {
   }
 
   checkDate(startDate, endDate) {
-    return moment(startDate).isBefore(moment(endDate));
+    return moment(startDate).isBefore(moment(endDate), 'day');
   }
 
   get(id) {
@@ -47,8 +47,8 @@ class JetpackRepository {
       // https://stackoverflow.com/questions/17593608/mysql-query-to-see-if-a-booking-will-conflict-with-another-booking
       if (
         !(
-          bookingEndDate.isBefore(booking['startDate']) ||
-          bookingStartDate.isAfter(booking['endDate'])
+          bookingEndDate.isBefore(booking['startDate'], 'day') ||
+          bookingStartDate.isAfter(booking['endDate'], 'day')
         )
       ) {
         isAvailable = false;
