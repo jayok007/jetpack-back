@@ -10,9 +10,9 @@ const validateJetpack = celebrate({
 
 const validateBooking = celebrate({
   body: Joi.object().keys({
-    id_jetpack: Joi.string().required(),
-    date_start: Joi.date().required(),
-    date_end: Joi.date().required()
+    idJetpack: Joi.string().required(),
+    dateStart: Joi.date().required(),
+    dateEnd: Joi.date().required()
   })
 });
 
@@ -30,24 +30,24 @@ module.exports = jetpackRepository => {
   });
 
   jetpacks.post('/jetpacks/booking', validateBooking, (req, res) => {
-    const jetpack = jetpackRepository.get(req.body.id_jetpack);
+    const jetpack = jetpackRepository.get(req.body.idJetpack);
     if (jetpack == undefined) {
       res.status(404).send({ error: 'Jetpack not found.' });
     }
-    if (!jetpackRepository.checkDate(req.body.date_start, req.body.date_end)) {
-      res.status(400).send({ error: 'date_start must before date_end.' });
+    if (!jetpackRepository.checkDate(req.body.dateStart, req.body.dateEnd)) {
+      res.status(400).send({ error: 'dateStart must before dateEnd.' });
     }
     if (
       jetpackRepository.isAvailable(
         jetpack,
-        req.body.date_start,
-        req.body.date_end
+        req.body.dateStart,
+        req.body.dateEnd
       )
     ) {
       const newJetpack = jetpackRepository.bookOne(
         jetpack,
-        req.body.date_start,
-        req.body.date_end
+        req.body.dateStart,
+        req.body.dateEnd
       );
       res.status(201).send(newJetpack);
     } else {

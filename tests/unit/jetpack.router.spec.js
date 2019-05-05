@@ -78,9 +78,9 @@ describe('Jetpack router', () => {
     await request(mockApp)
       .post('/jetpacks/booking')
       .send({
-        id_jetpack: '1',
-        date_start: '2013-01-13',
-        date_end: '2013-01-14'
+        idJetpack: '1',
+        dateStart: '2013-01-13',
+        dateEnd: '2013-01-14'
       })
       .expect(201);
   });
@@ -89,9 +89,9 @@ describe('Jetpack router', () => {
     await request(mockApp)
       .post('/jetpacks/booking')
       .send({
-        id_jetpack: '1',
-        date_start: '2013-03-15',
-        date_end: '2013-03-14'
+        idJetpack: '1',
+        dateStart: '2013-03-15',
+        dateEnd: '2013-03-14'
       })
       .expect(400);
   });
@@ -99,9 +99,9 @@ describe('Jetpack router', () => {
     await request(mockApp)
       .post('/jetpacks/booking')
       .send({
-        id_jetpack: '1',
-        date_start: '2013-03-15',
-        date_end: '2013-03-14'
+        idJetpack: '1',
+        dateStart: '2013-03-15',
+        dateEnd: '2013-03-14'
       })
       .expect(400);
   });
@@ -110,9 +110,9 @@ describe('Jetpack router', () => {
     await request(mockApp)
       .post('/jetpacks/booking')
       .send({
-        id_jetpack: '8',
-        date_start: '2013-03-15',
-        date_end: '2013-03-14'
+        idJetpack: '8',
+        dateStart: '2013-03-15',
+        dateEnd: '2013-03-14'
       })
       .expect(404);
   });
