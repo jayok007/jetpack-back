@@ -37,6 +37,11 @@ describe('Jetpack feature', () => {
 
     const jetpack = repository.createOne({ name: 'Name', image: 'Image' });
 
-    expect(jetpack).toEqual({ id: 'my-id', name: 'Name', image: 'Image' });
+    expect(jetpack).toEqual({
+      id: 'my-id',
+      name: 'Name',
+      image: 'Image',
+      bookings: []
+    });
   });
 });
