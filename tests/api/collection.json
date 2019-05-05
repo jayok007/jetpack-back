@@ -418,9 +418,8 @@
 							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
 							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
 							"const jsonData = JSON.parse(responseBody);",
-							"tests[\"Checking the first title\"] = jsonData.name === \"Tesla Jetpack\";",
-							"tests[\"Checking image modification\"] = jsonData.image === \"i'am ffffu\";",
-							"tests[\"Check totalItems > 0\"] = jsonData.bookings.length > 1;"
+							"tests[\"Checking the title\"] = jsonData.name === \"Tesla Jetpack\";",
+							"tests[\"Checking image modification\"] = jsonData.image === \"i'am ffffu\";"
 						],
 						"type": "text/javascript"
 					}
