@@ -33,11 +33,6 @@ describe('Jetpack repository', () => {
     uuid.mockReturnValue('my-id');
   });
 
-  it('should retreive the jetpacks', () => {
-    expect(repository.getAll()).toBe(jetpacks);
-    expect(dbMock.get).toHaveBeenCalledWith('jetpacks');
-  });
-
   it('should create a jetpack', () => {
     const jetpack = repository.createOne({
       name: 'Test',
@@ -119,5 +114,15 @@ describe('Jetpack repository', () => {
     const endDate = '2013-03-02';
     const res = repository.isAvailable(jetpacks[1], startDate, endDate);
     expect(res).toEqual(true);
+  });
+
+  it('should update an existing jetpack', () => {
+    const repository = new JetpackRepository(dbMock);
+
+    repository.updateOne('1', 'name', 'randomName');
+
+    expect(dbMock.get).toHaveBeenCalledWith('jetpacks');
+    expect(dbMock.find).toHaveBeenCalledWith({ id: '1' });
+    expect(dbMock.assign).toHaveBeenCalledWith({ name: 'randomName' });
   });
 });

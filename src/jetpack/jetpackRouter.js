@@ -8,6 +8,17 @@ const validateJetpack = celebrate({
   })
 });
 
+const validateUpdateJetpack = celebrate({
+  body: Joi.object().keys({
+    name: Joi.string(),
+    image: Joi.string(),
+    bookings: Joi.array()
+  }),
+  params: Joi.object().keys({
+    id: Joi.string().required()
+  })
+});
+
 const validateBooking = celebrate({
   body: Joi.object().keys({
     idJetpack: Joi.string().required(),
@@ -34,6 +45,14 @@ module.exports = jetpackRepository => {
   jetpacks.post('/jetpacks', validateJetpack, (req, res) => {
     const jetpack = jetpackRepository.createOne(req.body);
     res.status(201).send(jetpack);
+  });
+
+  jetpacks.put('/jetpacks/:id', validateUpdateJetpack, (req, res) => {
+    for (const [key, value] of Object.entries(req.body)) {
+      jetpackRepository.updateOne(req.params.id, key, value);
+    }
+
+    res.status(200).send(jetpackRepository.get(req.params.id));
   });
 
   jetpacks.get('/availibility/jetpacks', validateAvailibility, (req, res) => {

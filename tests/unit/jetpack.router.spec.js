@@ -15,6 +15,7 @@ const mockRepository = {
       bookings: []
     };
   },
+  updateOne: jetpack => jetpack,
   bookOne: (jetpack, startDate, endDate) => {
     return {
       id: jetpack.id,
@@ -27,14 +28,21 @@ const mockRepository = {
     };
   },
   get: id => {
-    if (id == 1)
+    if (id == '1')
       return {
         id: id,
         name: 'Jetpack Luxe',
         image: '',
         bookings: []
       };
-    else return undefined;
+    else if (id == 'my-id') {
+      return {
+        id: 'my-id',
+        name: 'updatedName',
+        image: 'updatedImage',
+        bookings: []
+      };
+    } else return undefined;
   },
   checkDate: (startDate, endDate) => {
     return moment(startDate).isBefore(moment(endDate));
@@ -68,12 +76,37 @@ describe('Jetpack router', () => {
       });
   });
 
-  it('can not create an empty jetpack', async () => {
+  it('should not create an empty jetpack', async () => {
     await request(mockApp)
       .post('/jetpacks')
       .expect(400);
   });
 
+  it('should update an existing jetpack', async () => {
+    await request(mockApp)
+      .put('/jetpacks/my-id')
+      .send({ name: 'updatedName', image: 'updatedImage' })
+      .expect(200, {
+        id: 'my-id',
+        name: 'updatedName',
+        image: 'updatedImage',
+        bookings: []
+      });
+  });
+
+  it('should update a jetpack with no name', async () => {
+    await request(mockApp)
+      .put('/jetpacks/my-id')
+      .send({ image: 'updatedImage' })
+      .expect(200);
+  });
+
+  it('should update a jetpack with image', async () => {
+    await request(mockApp)
+      .put('/jetpacks/my-id')
+      .send({ name: 'updatedName' })
+      .expect(200);
+  });
   it('should add a booking to a jetpack', async () => {
     await request(mockApp)
       .post('/jetpacks/booking')
