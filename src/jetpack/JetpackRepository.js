@@ -23,12 +23,12 @@ class JetpackRepository {
     return newJetPack;
   }
 
-  updateOne({ id, name, image }) {
-    const [updatedJetpack] = this.db
+  updateOne(id, key, value) {
+    const updatedJetpack = this.db
       .get('jetpacks')
       .find({ id })
-      .assign({ name, image })
-      .write();
+      .assign({ key: value })
+      .value();
 
     return updatedJetpack;
   }
