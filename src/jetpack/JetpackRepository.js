@@ -59,7 +59,10 @@ class JetpackRepository {
   }
 
   bookOne(jetpack, startDate, endDate) {
-    jetpack['bookings'].push({ startDate: startDate, endDate: endDate });
+    jetpack['bookings'].push({
+      startDate: moment(startDate).format('YYYY-MM-DD'),
+      endDate: moment(endDate).format('YYYY-MM-DD')
+    });
 
     const bookings = jetpack['bookings'];
 
