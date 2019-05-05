@@ -4,11 +4,11 @@ module.exports = function(config) {
     packageManager: 'npm',
     reporters: ['html', 'clear-text', 'progress', 'dashboard'],
     testRunner: 'jest',
+    mutate: ['src/**/*.js', '!src/app.js'],
     transpilers: [],
     coverageAnalysis: 'off',
     thresholds: {
-      break: 20
-      // ..
+      break: 70
     }
   });
 };
