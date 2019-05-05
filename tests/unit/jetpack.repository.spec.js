@@ -11,8 +11,8 @@ describe('Jetpack repository', () => {
       name: 'Tata',
       bookings: [
         {
-          startDate: '2013-03-10T00:00:00.000Z',
-          endDate: '2013-03-11T00:00:00.000Z'
+          startDate: '2013-03-10',
+          endDate: '2013-03-11'
         }
       ]
     }
