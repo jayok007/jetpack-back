@@ -296,7 +296,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"id_jetpack\": \"a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d\",\n\t\"date_start\": \"2012-03-26\",\n\t\"date_end\": \"2012-03-28\"\n}"
+					"raw": "{\n\t\"id_jetpack\": \"a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d\",\n\t\"date_start\": \"2013-03-10\",\n\t\"date_end\": \"2013-03-11\"\n}"
 				},
 				"url": {
 					"raw": "localhost:3000/api/jetpacks/booking",
@@ -314,16 +314,48 @@
 			"response": []
 		},
 		{
-			"name": "Add booking with good values Copy",
+			"name": "Add booking to jetpack already booked",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "81f62546-ed1c-4836-9184-167277190aa4",
+						"exec": [
+							"tests['Status code is 200'] = pm.response.to.have.status(400);",
+							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
+							"const jsonData = JSON.parse(responseBody);",
+							"tests[\"Checking the error\"] = jsonData.error === \"Jetpack already booked.\";"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\n\t\"id_jetpack\": \"a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d\",\n\t\"date_start\": \"2013-03-20\",\n\t\"date_end\": \"2013-03-25\"\n}"
 				},
 				"url": {
-					"raw": ""
+					"raw": "localhost:3000/api/jetpacks/booking",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"jetpacks",
+						"booking"
+					]
 				}
 			},
 			"response": []
