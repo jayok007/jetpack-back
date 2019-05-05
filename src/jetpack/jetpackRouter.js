@@ -16,6 +16,13 @@ const validateBooking = celebrate({
   })
 });
 
+const validateAvailibility = celebrate({
+  query: Joi.object().keys({
+    dateStart: Joi.date().required(),
+    dateEnd: Joi.date().required()
+  })
+});
+
 module.exports = jetpackRepository => {
   const jetpacks = express.Router();
 
@@ -27,6 +34,23 @@ module.exports = jetpackRepository => {
   jetpacks.post('/jetpacks', validateJetpack, (req, res) => {
     const jetpack = jetpackRepository.createOne(req.body);
     res.status(201).send(jetpack);
+  });
+
+  jetpacks.get('/availibility/jetpacks', validateAvailibility, (req, res) => {
+    const jetpacks = jetpackRepository.getAll();
+    const availableJetpacks = [];
+    for (const jetpack of jetpacks) {
+      if (
+        jetpackRepository.isAvailable(
+          jetpack,
+          req.query.dateStart,
+          req.query.dateEnd
+        )
+      ) {
+        availableJetpacks.push(jetpack);
+      }
+    }
+    res.status(200).send(jetpacks);
   });
 
   jetpacks.post('/jetpacks/booking', validateBooking, (req, res) => {

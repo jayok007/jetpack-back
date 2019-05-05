@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "63ccc80d-4c2d-421b-b8a1-c5301a038abe",
+		"_postman_id": "8248d057-97d8-4807-ad25-8e5194fa980e",
 		"name": "jetpack-back",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -314,6 +314,53 @@
 		},
 		{
 			"name": "Add booking to jetpack already booked",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "81f62546-ed1c-4836-9184-167277190aa4",
+						"exec": [
+							"tests['Status code is 400'] = pm.response.to.have.status(400);",
+							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
+							"const jsonData = JSON.parse(responseBody);",
+							"tests[\"Checking the error\"] = jsonData.error === \"Jetpack already booked.\";"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"idJetpack\": \"a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d\",\n\t\"dateStart\": \"2013-03-10\",\n\t\"dateEnd\": \"2013-03-11\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/jetpacks/booking",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"jetpacks",
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all available jetpacks for a specific time range",
 			"event": [
 				{
 					"listen": "test",

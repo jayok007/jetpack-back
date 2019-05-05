@@ -116,4 +116,10 @@ describe('Jetpack router', () => {
       })
       .expect(404);
   });
+
+  it('should return all available jetpack for a specific timerange', async () => {
+    await request(mockApp)
+      .get('/availibility/jetpacks?dateStart="2012-01-02"&dateEnd="2012-01-03')
+      .expect(200);
+  });
 });
