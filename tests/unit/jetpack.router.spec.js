@@ -2,6 +2,7 @@ const request = require('supertest');
 const jetpacksRouter = require('../../src/jetpack/jetpackRouter');
 const express = require('express');
 const { errors } = require('celebrate');
+const moment = require('moment');
 
 const mockApp = express();
 const mockRepository = {
@@ -10,8 +11,37 @@ const mockRepository = {
     return {
       id: '1',
       name,
-      image
+      image,
+      bookings: []
     };
+  },
+  bookOne: (jetpack, startDate, endDate) => {
+    return {
+      id: jetpack.id,
+      name: jetpack.name,
+      image: jetpack.image,
+      bookings: jetpack.bookings.push({
+        startDate: startDate,
+        endDate: endDate
+      })
+    };
+  },
+  get: id => {
+    if (id == 1)
+      return {
+        id: id,
+        name: 'Jetpack Luxe',
+        image: '',
+        bookings: []
+      };
+    else return undefined;
+  },
+  checkDate: (startDate, endDate) => {
+    return moment(startDate).isBefore(moment(endDate));
+  },
+  // eslint-disable-next-line no-unused-vars
+  isAvailable: (jetpack, startDate, endDate) => {
+    return true;
   }
 };
 
@@ -33,7 +63,8 @@ describe('Jetpack router', () => {
       .expect(201, {
         id: '1',
         name: 'Test',
-        image: 'Image'
+        image: 'Image',
+        bookings: []
       });
   });
 
@@ -41,5 +72,48 @@ describe('Jetpack router', () => {
     await request(mockApp)
       .post('/jetpacks')
       .expect(400);
+  });
+
+  it('should add a booking to a jetpack', async () => {
+    await request(mockApp)
+      .post('/jetpacks/booking')
+      .send({
+        id_jetpack: '1',
+        date_start: '2013-01-13',
+        date_end: '2013-01-14'
+      })
+      .expect(201);
+  });
+
+  it('should not add a booking to a jetpack (start after end)', async () => {
+    await request(mockApp)
+      .post('/jetpacks/booking')
+      .send({
+        id_jetpack: '1',
+        date_start: '2013-03-15',
+        date_end: '2013-03-14'
+      })
+      .expect(400);
+  });
+  it('should not add a booking to a jetpack', async () => {
+    await request(mockApp)
+      .post('/jetpacks/booking')
+      .send({
+        id_jetpack: '1',
+        date_start: '2013-03-15',
+        date_end: '2013-03-14'
+      })
+      .expect(400);
+  });
+
+  it('should not add a booking to a jetpack (jetpack not found)', async () => {
+    await request(mockApp)
+      .post('/jetpacks/booking')
+      .send({
+        id_jetpack: '8',
+        date_start: '2013-03-15',
+        date_end: '2013-03-14'
+      })
+      .expect(404);
   });
 });

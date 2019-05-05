@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2b6ba665-14e0-4c26-bf38-db28e97086f3",
+		"_postman_id": "63ccc80d-4c2d-421b-b8a1-c5301a038abe",
 		"name": "jetpack-back",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -217,7 +217,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3000/api/jetpacks",
+			"name": "Get all Jetpacks",
 			"event": [
 				{
 					"listen": "test",
@@ -260,6 +260,70 @@
 						"api",
 						"jetpacks"
 					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add booking with good values",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5c4f516a-8c2d-467d-9532-b64cfb4309dd",
+						"exec": [
+							"tests['Status code is 200'] = pm.response.to.have.status(201);",
+							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
+							"const jsonData = JSON.parse(responseBody);",
+							"tests[\"Checking the first title\"] = jsonData.name === \"Jetpack Fortnite Wiki\";",
+							"const firstJetpack = jsonData[0];",
+							"tests[\"Check totalItems > 0\"] = jsonData.length >1;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id_jetpack\": \"a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d\",\n\t\"date_start\": \"2012-03-26\",\n\t\"date_end\": \"2012-03-28\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/jetpacks/booking",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"jetpacks",
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add booking with good values Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
 				}
 			},
 			"response": []
