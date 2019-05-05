@@ -61,8 +61,8 @@ describe('Jetpack repository', () => {
   });
 
   it('should book a jetpack', () => {
-    const startDate = '2013-03-12T00:00:00.000Z';
-    const endDate = '2013-03-13T00:00:00.000Z';
+    const startDate = '2013-03-12';
+    const endDate = '2013-03-13';
 
     repository.bookOne(jetpacks[0], startDate, endDate);
 
