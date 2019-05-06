@@ -2,11 +2,148 @@
 	"variables": [],
 	"info": {
 		"name": "jetpack-back",
-		"_postman_id": "54a6645e-8e36-f38b-4738-e692378641cc",
+		"_postman_id": "0939489c-f306-c68e-263a-5e34ce5b1b18",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Get all Jetpacks",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests['Status code is 200'] = pm.response.to.have.status(200);",
+							"",
+							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"",
+							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
+							"",
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Check totalItems > 0\"] = jsonData.length > 0;",
+							"",
+							"tests[\"Checking the first title\"] = jsonData[0].name === \"Jetpack Fortnite Wiki\";",
+							"",
+							"tests[\"Checking the second title\"] = jsonData[1].name === \"Jetpack JackTalior\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:3000/api/jetpacks",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve available jetpacks",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests['Status code is 200'] = pm.response.to.have.status(200);",
+							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
+							"const jsonData = JSON.parse(responseBody);",
+							"tests[\"Contain one jetpack\"] = jsonData.length === 1;",
+							"tests[\"Contain the jetpack a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d\"] = jsonData[0].id === 'a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d';",
+							"tests[\"Contain the jetpack Jetpack JackTalior\"] = jsonData[0].name === 'Jetpack JackTalior';",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": {
+					"raw": "localhost:3000/api/availability/jetpacks?dateStart=2013-03-10&dateEnd=2013-03-15",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"availability",
+						"jetpacks"
+					],
+					"query": [
+						{
+							"key": "dateStart",
+							"value": "2013-03-10",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "dateEnd",
+							"value": "2013-03-15",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update a jetpack",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests['Status code is 200'] = pm.response.to.have.status(200);",
+							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
+							"const jsonData = JSON.parse(responseBody);",
+							"tests[\"Checking the title\"] = jsonData.name === \"Tesla Jetpack\";",
+							"tests[\"Checking image modification\"] = jsonData.image === \"i'am ffffu\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:3000/api/jetpacks/a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Tesla Jetpack\",\n\t\"image\": \"i'am ffffu\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
 		{
 			"name": "Jetpack creation with data",
 			"event": [
@@ -175,43 +312,6 @@
 			"response": []
 		},
 		{
-			"name": "Get all Jetpacks",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"tests['Status code is 200'] = pm.response.to.have.status(200);",
-							"",
-							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
-							"",
-							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
-							"",
-							"const jsonData = JSON.parse(responseBody);",
-							"",
-							"tests[\"Check totalItems > 0\"] = jsonData.length > 0;",
-							"",
-							"tests[\"Checking the first title\"] = jsonData[0].name === \"Jetpack Fortnite Wiki\";",
-							"",
-							"tests[\"Checking the second title\"] = jsonData[1].name === \"Jetpack JackTalior\";"
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "http://localhost:3000/api/jetpacks",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
 			"name": "Add booking with good values",
 			"event": [
 				{
@@ -278,43 +378,6 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"dateStart\": \"2013-03-10\",\n\t\"dateEnd\": \"2013-03-11\"\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Update a jetpack",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"tests['Status code is 200'] = pm.response.to.have.status(200);",
-							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
-							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
-							"const jsonData = JSON.parse(responseBody);",
-							"tests[\"Checking the title\"] = jsonData.name === \"Tesla Jetpack\";",
-							"tests[\"Checking image modification\"] = jsonData.image === \"i'am ffffu\";"
-						]
-					}
-				}
-			],
-			"request": {
-				"url": "localhost:3000/api/jetpacks/a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Tesla Jetpack\",\n\t\"image\": \"i'am ffffu\"\n}"
 				},
 				"description": ""
 			},

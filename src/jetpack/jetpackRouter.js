@@ -23,7 +23,7 @@ const validateBooking = celebrate({
   })
 });
 
-const validateAvailibility = celebrate({
+const validateAvailability = celebrate({
   query: Joi.object().keys({
     dateStart: Joi.date().required(),
     dateEnd: Joi.date().required()
@@ -59,21 +59,13 @@ module.exports = jetpackRepository => {
     res.status(200).send(updatedJetpack);
   });
 
-  jetpacks.get('/availibility/jetpacks', validateAvailibility, (req, res) => {
-    const jetpacks = jetpackRepository.getAll();
-    const availableJetpacks = [];
-    for (const jetpack of jetpacks) {
-      if (
-        jetpackRepository.isAvailable(
-          jetpack,
-          req.query.dateStart,
-          req.query.dateEnd
-        )
-      ) {
-        availableJetpacks.push(jetpack);
-      }
-    }
-    res.status(200).send(jetpacks);
+  jetpacks.get('/availability/jetpacks', validateAvailability, (req, res) => {
+    const dateStart = moment(req.query.dateStart).format('YYYY-MM-DD');
+    const dateEnd = moment(req.query.dateEnd).format('YYYY-MM-DD');
+
+    res
+      .status(200)
+      .send(jetpackRepository.getAvailableJetpacks(dateStart, dateEnd));
   });
 
   jetpacks.post('/jetpacks/:id/bookings', validateBooking, (req, res) => {
