@@ -6,43 +6,19 @@ const { errors } = require('celebrate');
 const mockApp = express();
 const mockRepository = {
   getAll: () => ['test'],
-  createOne: ({ name, image }) => {
-    return {
-      id: '1',
-      name,
-      image,
-      bookings: []
-    };
-  },
+  createOne: ({ name, image }) => ({
+    id: '1',
+    name,
+    image,
+    bookings: []
+  }),
   updateOne: ({ id, name, image }) => ({ id, name, image, bookings: [] }),
-  bookOne: (jetpack, startDate, endDate) => {
-    return {
-      id: jetpack.id,
-      name: jetpack.name,
-      image: jetpack.image,
-      bookings: jetpack.bookings.push({
-        startDate: startDate,
-        endDate: endDate
-      })
-    };
-  },
-  getOne: id => {
-    if (id == '1')
-      return {
-        id: id,
-        name: 'Jetpack Luxe',
-        image: '',
-        bookings: []
-      };
-    else {
-      return {
-        id: 'my-id',
-        name: 'updatedName',
-        image: 'updatedImage',
-        bookings: []
-      };
-    }
-  },
+  getOne: id => ({
+    id,
+    name: 'Jetpack Luxe',
+    image: '',
+    bookings: []
+  }),
   isAvailable: () => true
 };
 
@@ -94,7 +70,7 @@ describe('Jetpack router', () => {
       .expect(400);
   });
 
-  it('should not update a jetpack with image', async () => {
+  it('should not update a jetpack with no image', async () => {
     await request(mockApp)
       .put('/jetpacks/my-id')
       .send({ name: 'updatedName' })
