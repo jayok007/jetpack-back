@@ -1,6 +1,14 @@
 const uuid = require('uuid');
 const moment = require('moment');
 
+const isAvailable = (dateStart, dateEnd) => jetpack => {
+  return jetpack.bookings.every(
+    b =>
+      moment(dateEnd).isBefore(moment(b.dateStart), 'day') ||
+      moment(dateStart).isAfter(moment(b.dateEnd), 'day')
+  );
+};
+
 class JetpackRepository {
   constructor(db) {
     this.db = db;
@@ -56,6 +64,13 @@ class JetpackRepository {
       .write();
 
     return booking;
+  }
+
+  getAvailableJetpacks(dateStart, dateEnd) {
+    return this.db
+      .get('jetpacks')
+      .filter(isAvailable(dateStart, dateEnd))
+      .value();
   }
 }
 module.exports = JetpackRepository;

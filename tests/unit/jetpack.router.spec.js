@@ -118,9 +118,16 @@ describe('Jetpack router', () => {
       .expect(404);
   });
 
-  it('should return all available jetpack for a specific timerange', async () => {
+  it('should retrieve all available jetpacks', async () => {
+    mockRepository.getAvailableJetpacks = jest.fn(() => ['available']);
+
     await request(mockApp)
-      .get('/availibility/jetpacks?dateStart="2012-01-02"&dateEnd="2012-01-03')
-      .expect(200);
+      .get('/availability/jetpacks?dateStart=2012-01-02&dateEnd=2012-01-03')
+      .expect(200, ['available']);
+
+    expect(mockRepository.getAvailableJetpacks).toHaveBeenCalledWith(
+      '2012-01-02',
+      '2012-01-03'
+    );
   });
 });
