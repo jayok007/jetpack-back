@@ -46,13 +46,13 @@ describe('Jetpack feature', () => {
   });
 
   it('should update a jetpack', () => {
-    const updatedJetpack = repository.updateOne({
+    repository.updateOne({
       id: '1',
       name: 'Updated',
       image: 'Updated'
     });
 
-    expect(updatedJetpack).toEqual({
+    expect(repository.getAll()[0]).toEqual({
       id: '1',
       name: 'Updated',
       image: 'Updated'
