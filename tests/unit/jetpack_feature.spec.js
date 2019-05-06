@@ -44,4 +44,18 @@ describe('Jetpack feature', () => {
       bookings: []
     });
   });
+
+  it('should update a jetpack', () => {
+    const updatedJetpack = repository.updateOne({
+      id: '1',
+      name: 'Updated',
+      image: 'Updated'
+    });
+
+    expect(updatedJetpack).toEqual({
+      id: '1',
+      name: 'Updated',
+      image: 'Updated'
+    });
+  });
 });
