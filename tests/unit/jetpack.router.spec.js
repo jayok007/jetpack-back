@@ -2,55 +2,24 @@ const request = require('supertest');
 const jetpacksRouter = require('../../src/jetpack/jetpackRouter');
 const express = require('express');
 const { errors } = require('celebrate');
-const moment = require('moment');
 
 const mockApp = express();
 const mockRepository = {
   getAll: () => ['test'],
-  createOne: ({ name, image }) => {
-    return {
-      id: '1',
-      name,
-      image,
-      bookings: []
-    };
-  },
+  createOne: ({ name, image }) => ({
+    id: '1',
+    name,
+    image,
+    bookings: []
+  }),
   updateOne: ({ id, name, image }) => ({ id, name, image, bookings: [] }),
-  bookOne: (jetpack, startDate, endDate) => {
-    return {
-      id: jetpack.id,
-      name: jetpack.name,
-      image: jetpack.image,
-      bookings: jetpack.bookings.push({
-        startDate: startDate,
-        endDate: endDate
-      })
-    };
-  },
-  get: id => {
-    if (id == '1')
-      return {
-        id: id,
-        name: 'Jetpack Luxe',
-        image: '',
-        bookings: []
-      };
-    else if (id == 'my-id') {
-      return {
-        id: 'my-id',
-        name: 'updatedName',
-        image: 'updatedImage',
-        bookings: []
-      };
-    } else return undefined;
-  },
-  checkDate: (startDate, endDate) => {
-    return moment(startDate).isBefore(moment(endDate));
-  },
-  // eslint-disable-next-line no-unused-vars
-  isAvailable: (jetpack, startDate, endDate) => {
-    return true;
-  }
+  getOne: id => ({
+    id,
+    name: 'Jetpack Luxe',
+    image: '',
+    bookings: []
+  }),
+  isAvailable: () => true
 };
 
 mockApp.use(express.json());
@@ -101,7 +70,7 @@ describe('Jetpack router', () => {
       .expect(400);
   });
 
-  it('should not update a jetpack with image', async () => {
+  it('should not update a jetpack with no image', async () => {
     await request(mockApp)
       .put('/jetpacks/my-id')
       .send({ name: 'updatedName' })
@@ -109,44 +78,41 @@ describe('Jetpack router', () => {
   });
 
   it('should add a booking to a jetpack', async () => {
+    mockRepository.bookOne = () => ({
+      dateStart: '2013-01-13',
+      dateEnd: '2013-01-14'
+    });
+
     await request(mockApp)
-      .post('/jetpacks/booking')
+      .post('/jetpacks/1/bookings')
       .send({
-        idJetpack: '1',
         dateStart: '2013-01-13',
         dateEnd: '2013-01-14'
       })
-      .expect(201);
+      .expect(201, {
+        dateStart: '2013-01-13',
+        dateEnd: '2013-01-14'
+      });
   });
 
-  it('should not add a booking to a jetpack (start after end)', async () => {
+  it('should not add a booking when dates are invalid', async () => {
     await request(mockApp)
-      .post('/jetpacks/booking')
+      .post('/jetpacks/1/bookings')
       .send({
-        idJetpack: '1',
         dateStart: '2013-03-15',
         dateEnd: '2013-03-14'
       })
       .expect(400);
   });
 
-  it('should not add a booking to a jetpack', async () => {
-    await request(mockApp)
-      .post('/jetpacks/booking')
-      .send({
-        idJetpack: '1',
-        dateStart: '2013-03-15',
-        dateEnd: '2013-03-14'
-      })
-      .expect(400);
-  });
+  it('should not add a booking when jetpack does not exist', async () => {
+    mockRepository.getOne = () => null;
 
-  it('should not add a booking to a jetpack (jetpack not found)', async () => {
     await request(mockApp)
       .post('/jetpacks/booking')
       .send({
         idJetpack: '8',
-        dateStart: '2013-03-15',
+        dateStart: '2013-03-12',
         dateEnd: '2013-03-14'
       })
       .expect(404);

@@ -14,6 +14,7 @@
     "test:api": "start-server-and-test start http://localhost:3000/api/jetpacks \"newman run tests/api/collection.json\""
   },
   "dependencies": {
+    "@hapi/boom": "^7.4.2",
     "celebrate": "^9.1.0",
     "express": "^4.16.4",
     "lowdb": "^1.0.0",
