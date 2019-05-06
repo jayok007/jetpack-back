@@ -1,8 +1,10 @@
 {
+	"variables": [],
 	"info": {
-		"_postman_id": "8248d057-97d8-4807-ad25-8e5194fa980e",
 		"name": "jetpack-back",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "54a6645e-8e36-f38b-4738-e692378641cc",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
@@ -11,7 +13,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "dba4c7e5-bc95-40c2-8f4c-6e34765f196d",
+						"type": "text/javascript",
 						"exec": [
 							"// The newJetPack object is only here for reference and further tests. To modify the data sent to the API, modify both here and the raw data in the body section",
 							"const newJetPack = { ",
@@ -27,12 +29,12 @@
 							"tests[\"A new id has been generated\"] =  jsonData.hasOwnProperty('id') === true;",
 							"tests[\"JetPack Properties integrity\"] = jsonData.name === newJetPack.name && jsonData.image === newJetPack.image",
 							""
-						],
-						"type": "text/javascript"
+						]
 					}
 				}
 			],
 			"request": {
+				"url": "http://localhost:3000/api/jetpacks",
 				"method": "POST",
 				"header": [
 					{
@@ -46,18 +48,7 @@
 					"mode": "raw",
 					"raw": "{\n    \"name\": \"APImekPack\",\n    \"image\": \"TESTB64STRING\"\n}"
 				},
-				"url": {
-					"raw": "http://localhost:3000/api/jetpacks",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"jetpacks"
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		},
@@ -67,7 +58,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "dba4c7e5-bc95-40c2-8f4c-6e34765f196d",
+						"type": "text/javascript",
 						"exec": [
 							"// The newJetPack object is only here for reference and further tests. To modify the data sent to the API, modify both here and the raw data in the body section",
 							"const newJetPack = { ",
@@ -80,12 +71,12 @@
 							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
 							"tests[\"JSON response is not empty\"] = Object.keys(jsonData).length !== 0 && jsonData.constructor === Object;",
 							""
-						],
-						"type": "text/javascript"
+						]
 					}
 				}
 			],
 			"request": {
+				"url": "http://localhost:3000/api/jetpacks",
 				"method": "POST",
 				"header": [
 					{
@@ -99,18 +90,7 @@
 					"mode": "raw",
 					"raw": "{\n    \"name\": \"APImekPack\"\n}"
 				},
-				"url": {
-					"raw": "http://localhost:3000/api/jetpacks",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"jetpacks"
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		},
@@ -120,7 +100,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "dba4c7e5-bc95-40c2-8f4c-6e34765f196d",
+						"type": "text/javascript",
 						"exec": [
 							"// The newJetPack object is only here for reference and further tests. To modify the data sent to the API, modify both here and the raw data in the body section",
 							"const newJetPack = { ",
@@ -134,12 +114,12 @@
 							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
 							"tests[\"JSON response is not empty\"] = Object.keys(jsonData).length !== 0 && jsonData.constructor === Object;",
 							""
-						],
-						"type": "text/javascript"
+						]
 					}
 				}
 			],
 			"request": {
+				"url": "http://localhost:3000/api/jetpacks",
 				"method": "POST",
 				"header": [
 					{
@@ -153,18 +133,7 @@
 					"mode": "raw",
 					"raw": "{\n        \"image\": \"TESTB64STRING\"\n\n}"
 				},
-				"url": {
-					"raw": "http://localhost:3000/api/jetpacks",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"jetpacks"
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		},
@@ -174,7 +143,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "dba4c7e5-bc95-40c2-8f4c-6e34765f196d",
+						"type": "text/javascript",
 						"exec": [
 							"const jsonData = JSON.parse(responseBody);",
 							"",
@@ -182,12 +151,12 @@
 							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
 							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
 							"tests[\"JSON response is not empty\"] = Object.keys(jsonData).length !== 0 && jsonData.constructor === Object;"
-						],
-						"type": "text/javascript"
+						]
 					}
 				}
 			],
 			"request": {
+				"url": "http://localhost:3000/api/jetpacks",
 				"method": "POST",
 				"header": [
 					{
@@ -201,18 +170,7 @@
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": {
-					"raw": "http://localhost:3000/api/jetpacks",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"jetpacks"
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		},
@@ -222,7 +180,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "f81dee60-c3f4-4d4a-a491-94e65f7a118c",
+						"type": "text/javascript",
 						"exec": [
 							"tests['Status code is 200'] = pm.response.to.have.status(200);",
 							"",
@@ -237,30 +195,19 @@
 							"tests[\"Checking the first title\"] = jsonData[0].name === \"Jetpack Fortnite Wiki\";",
 							"",
 							"tests[\"Checking the second title\"] = jsonData[1].name === \"Jetpack JackTalior\";"
-						],
-						"type": "text/javascript"
+						]
 					}
 				}
 			],
 			"request": {
+				"url": "http://localhost:3000/api/jetpacks",
 				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
-				"url": {
-					"raw": "http://localhost:3000/api/jetpacks",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"jetpacks"
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		},
@@ -270,45 +217,33 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5c4f516a-8c2d-467d-9532-b64cfb4309dd",
+						"type": "text/javascript",
 						"exec": [
 							"tests['Status code is 200'] = pm.response.to.have.status(201);",
 							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
 							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
 							"const jsonData = JSON.parse(responseBody);",
-							"tests[\"Checking the first title\"] = jsonData.name === \"Jetpack Fortnite Wiki\";",
-							"tests[\"Check totalItems > 0\"] = jsonData.bookings.length > 1;"
-						],
-						"type": "text/javascript"
+							"tests[\"Checking the start date\"] = jsonData.dateStart === \"2013-03-27\";",
+							"tests[\"Checking the end date\"] = jsonData.dateEnd === \"2013-03-28\";"
+						]
 					}
 				}
 			],
 			"request": {
+				"url": "localhost:3000/api/jetpacks/a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d/bookings",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"name": "Content-Type",
 						"value": "application/json",
-						"type": "text"
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"idJetpack\": \"a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d\",\n\t\"dateStart\": \"2013-03-27\",\n\t\"dateEnd\": \"2013-03-28\"\n}"
+					"raw": "{\n\t\"dateStart\": \"2013-03-27\",\n\t\"dateEnd\": \"2013-03-28\"\n}"
 				},
-				"url": {
-					"raw": "localhost:3000/api/jetpacks/booking",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"jetpacks",
-						"booking"
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		},
@@ -318,91 +253,33 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "81f62546-ed1c-4836-9184-167277190aa4",
+						"type": "text/javascript",
 						"exec": [
 							"tests['Status code is 400'] = pm.response.to.have.status(400);",
 							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
 							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
 							"const jsonData = JSON.parse(responseBody);",
-							"tests[\"Checking the error\"] = jsonData.error === \"Jetpack already booked.\";"
-						],
-						"type": "text/javascript"
+							"tests[\"Checking the error\"] = jsonData.output.payload.error === \"Bad Request\";",
+							"tests[\"Checking the error message\"] = jsonData.output.payload.message === \"Jetpack already booked\";"
+						]
 					}
 				}
 			],
 			"request": {
+				"url": "localhost:3000/api/jetpacks/a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d/bookings",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"name": "Content-Type",
 						"value": "application/json",
-						"type": "text"
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"idJetpack\": \"a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d\",\n\t\"dateStart\": \"2013-03-10\",\n\t\"dateEnd\": \"2013-03-11\"\n}"
+					"raw": "{\n\t\"dateStart\": \"2013-03-10\",\n\t\"dateEnd\": \"2013-03-11\"\n}"
 				},
-				"url": {
-					"raw": "localhost:3000/api/jetpacks/booking",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"jetpacks",
-						"booking"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get all available jetpacks for a specific time range",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "81f62546-ed1c-4836-9184-167277190aa4",
-						"exec": [
-							"tests['Status code is 400'] = pm.response.to.have.status(400);",
-							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
-							"tests['The Content-Type is JSON'] = pm.response.to.be.json;",
-							"const jsonData = JSON.parse(responseBody);",
-							"tests[\"Checking the error\"] = jsonData.error === \"Jetpack already booked.\";"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"idJetpack\": \"a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d\",\n\t\"dateStart\": \"2013-03-10\",\n\t\"dateEnd\": \"2013-03-11\"\n}"
-				},
-				"url": {
-					"raw": "localhost:3000/api/jetpacks/booking",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"jetpacks",
-						"booking"
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		},
@@ -412,7 +289,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3d435e78-f79e-4efe-8846-17f593f731cb",
+						"type": "text/javascript",
 						"exec": [
 							"tests['Status code is 200'] = pm.response.to.have.status(200);",
 							"tests['Response time is less than 1s'] = pm.expect(pm.response.responseTime).to.be.below(1000);",
@@ -420,12 +297,12 @@
 							"const jsonData = JSON.parse(responseBody);",
 							"tests[\"Checking the title\"] = jsonData.name === \"Tesla Jetpack\";",
 							"tests[\"Checking image modification\"] = jsonData.image === \"i'am ffffu\";"
-						],
-						"type": "text/javascript"
+						]
 					}
 				}
 			],
 			"request": {
+				"url": "localhost:3000/api/jetpacks/a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d",
 				"method": "PUT",
 				"header": [
 					{
@@ -439,18 +316,7 @@
 					"mode": "raw",
 					"raw": "{\n\t\"name\": \"Tesla Jetpack\",\n\t\"image\": \"i'am ffffu\"\n}"
 				},
-				"url": {
-					"raw": "localhost:3000/api/jetpacks/a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"jetpacks",
-						"a8019ec0-bfdc-4140-9dbb-4927e5ef5c8d"
-					]
-				}
+				"description": ""
 			},
 			"response": []
 		}

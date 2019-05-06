@@ -1,5 +1,7 @@
 const express = require('express');
 const { celebrate, Joi } = require('celebrate');
+const Boom = require('@hapi/boom');
+const moment = require('moment');
 
 const validateJetpack = celebrate({
   body: Joi.object().keys({
@@ -13,9 +15,11 @@ const validateJetpack = celebrate({
 
 const validateBooking = celebrate({
   body: Joi.object().keys({
-    idJetpack: Joi.string().required(),
     dateStart: Joi.date().required(),
     dateEnd: Joi.date().required()
+  }),
+  params: Joi.object().keys({
+    id: Joi.string().required()
   })
 });
 
@@ -25,6 +29,14 @@ const validateAvailibility = celebrate({
     dateEnd: Joi.date().required()
   })
 });
+
+const isAvailable = (jetpack, dateEnd, dateStart) => {
+  return jetpack.bookings.every(
+    b =>
+      moment(dateEnd).isBefore(moment(b.dateStart), 'day') ||
+      moment(dateStart).isAfter(moment(b.dateEnd), 'day')
+  );
+};
 
 module.exports = jetpackRepository => {
   const jetpacks = express.Router();
@@ -64,30 +76,29 @@ module.exports = jetpackRepository => {
     res.status(200).send(jetpacks);
   });
 
-  jetpacks.post('/jetpacks/booking', validateBooking, (req, res) => {
-    const jetpack = jetpackRepository.get(req.body.idJetpack);
-    if (jetpack == undefined) {
-      res.status(404).send({ error: 'Jetpack not found.' });
+  jetpacks.post('/jetpacks/:id/bookings', validateBooking, (req, res) => {
+    const { dateStart, dateEnd } = req.body;
+    const { id } = req.params;
+
+    if (moment(dateStart).isAfter(moment(dateEnd), 'day')) {
+      return res.status(400).send(Boom.badRequest('Invalid dates'));
     }
-    if (!jetpackRepository.checkDate(req.body.dateStart, req.body.dateEnd)) {
-      res.status(400).send({ error: 'dateStart must before dateEnd.' });
+
+    const jetpack = jetpackRepository.getOne(id);
+
+    if (!jetpack) {
+      return res
+        .status(404)
+        .send(Boom.notFound(`Jetpack id "${id}" does not exist`));
     }
-    if (
-      jetpackRepository.isAvailable(
-        jetpack,
-        req.body.dateStart,
-        req.body.dateEnd
-      )
-    ) {
-      const newJetpack = jetpackRepository.bookOne(
-        jetpack,
-        req.body.dateStart,
-        req.body.dateEnd
-      );
-      res.status(201).send(newJetpack);
-    } else {
-      res.status(400).send({ error: 'Jetpack already booked.' });
+
+    if (!isAvailable(jetpack, dateEnd, dateStart)) {
+      return res.status(400).send(Boom.badRequest('Jetpack already booked'));
     }
+
+    res
+      .status(201)
+      .send(jetpackRepository.bookOne(jetpack, dateStart, dateEnd));
   });
 
   return jetpacks;

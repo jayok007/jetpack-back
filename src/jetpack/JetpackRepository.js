@@ -36,54 +36,26 @@ class JetpackRepository {
     return { id, name, image };
   }
 
-  checkDate(startDate, endDate) {
-    return moment(startDate).isBefore(moment(endDate), 'day');
-  }
-
-  get(id) {
+  getOne(id) {
     return this.db
       .get('jetpacks')
-      .find({ id: id })
+      .find({ id })
       .value();
   }
 
-  isAvailable(jetpack, startDate, endDate) {
-    // Check if start_date is before
-    const bookingStartDate = moment(startDate);
-    const bookingEndDate = moment(endDate);
-
-    // Check if the jeptack is available
-    let isAvailable = true;
-    for (const booking of jetpack['bookings']) {
-      // https://stackoverflow.com/questions/17593608/mysql-query-to-see-if-a-booking-will-conflict-with-another-booking
-      if (
-        !(
-          bookingEndDate.isBefore(booking['startDate'], 'day') ||
-          bookingStartDate.isAfter(booking['endDate'], 'day')
-        )
-      ) {
-        isAvailable = false;
-        break;
-      }
-    }
-    return isAvailable;
-  }
-
-  bookOne(jetpack, startDate, endDate) {
-    jetpack['bookings'].push({
-      startDate: moment(startDate).format('YYYY-MM-DD'),
-      endDate: moment(endDate).format('YYYY-MM-DD')
-    });
-
-    const bookings = jetpack['bookings'];
+  bookOne(jetpack, dateStart, dateEnd) {
+    const booking = {
+      dateStart: moment(dateStart).format('YYYY-MM-DD'),
+      dateEnd: moment(dateEnd).format('YYYY-MM-DD')
+    };
 
     this.db
       .get('jetpacks')
       .find({ id: jetpack.id })
-      .assign({ bookings })
+      .assign({ bookings: [...jetpack.bookings, booking] })
       .write();
 
-    return jetpack;
+    return booking;
   }
 }
 module.exports = JetpackRepository;
