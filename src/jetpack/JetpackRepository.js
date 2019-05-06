@@ -26,17 +26,14 @@ class JetpackRepository {
     return newJetPack;
   }
 
-  updateOne(id, key, value) {
-    var changes = {};
-    changes[key] = value;
-
-    const updatedJetpack = this.db
+  updateOne({ id, name, image }) {
+    this.db
       .get('jetpacks')
       .find({ id })
-      .assign(changes)
+      .assign({ name, image })
       .write();
 
-    return updatedJetpack;
+    return { id, name, image };
   }
 
   checkDate(startDate, endDate) {

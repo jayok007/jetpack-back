@@ -15,7 +15,7 @@ const mockRepository = {
       bookings: []
     };
   },
-  updateOne: jetpack => jetpack,
+  updateOne: ({ id, name, image }) => ({ id, name, image, bookings: [] }),
   bookOne: (jetpack, startDate, endDate) => {
     return {
       id: jetpack.id,
@@ -76,12 +76,6 @@ describe('Jetpack router', () => {
       });
   });
 
-  it('should not create an empty jetpack', async () => {
-    await request(mockApp)
-      .post('/jetpacks')
-      .expect(400);
-  });
-
   it('should update an existing jetpack', async () => {
     await request(mockApp)
       .put('/jetpacks/my-id')
@@ -94,19 +88,26 @@ describe('Jetpack router', () => {
       });
   });
 
-  it('should update a jetpack with no name', async () => {
+  it('should not create an empty jetpack', async () => {
+    await request(mockApp)
+      .post('/jetpacks')
+      .expect(400);
+  });
+
+  it('should not update a jetpack with no name', async () => {
     await request(mockApp)
       .put('/jetpacks/my-id')
       .send({ image: 'updatedImage' })
-      .expect(200);
+      .expect(400);
   });
 
-  it('should update a jetpack with image', async () => {
+  it('should not update a jetpack with image', async () => {
     await request(mockApp)
       .put('/jetpacks/my-id')
       .send({ name: 'updatedName' })
-      .expect(200);
+      .expect(400);
   });
+
   it('should add a booking to a jetpack', async () => {
     await request(mockApp)
       .post('/jetpacks/booking')
@@ -128,6 +129,7 @@ describe('Jetpack router', () => {
       })
       .expect(400);
   });
+
   it('should not add a booking to a jetpack', async () => {
     await request(mockApp)
       .post('/jetpacks/booking')

@@ -117,12 +117,25 @@ describe('Jetpack repository', () => {
   });
 
   it('should update an existing jetpack', () => {
+    const jetpack = {
+      id: '1',
+      name: 'Name',
+      image: 'Image'
+    };
+    const dbMock = {
+      get: jest.fn(() => dbMock),
+      find: jest.fn(() => dbMock),
+      assign: jest.fn(() => dbMock),
+      write: jest.fn(() => [jetpack])
+    };
     const repository = new JetpackRepository(dbMock);
 
-    repository.updateOne('1', 'name', 'randomName');
-
+    expect(repository.updateOne(jetpack)).toEqual(jetpack);
     expect(dbMock.get).toHaveBeenCalledWith('jetpacks');
     expect(dbMock.find).toHaveBeenCalledWith({ id: '1' });
-    expect(dbMock.assign).toHaveBeenCalledWith({ name: 'randomName' });
+    expect(dbMock.assign).toHaveBeenCalledWith({
+      name: 'Name',
+      image: 'Image'
+    });
   });
 });
