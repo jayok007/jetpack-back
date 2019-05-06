@@ -30,7 +30,7 @@ const validateAvailibility = celebrate({
   })
 });
 
-const isAvailable = (jetpack, dateEnd, dateStart) => {
+const isAvailable = (jetpack, dateStart, dateEnd) => {
   return jetpack.bookings.every(
     b =>
       moment(dateEnd).isBefore(moment(b.dateStart), 'day') ||
@@ -92,7 +92,7 @@ module.exports = jetpackRepository => {
         .send(Boom.notFound(`Jetpack id "${id}" does not exist`));
     }
 
-    if (!isAvailable(jetpack, dateEnd, dateStart)) {
+    if (!isAvailable(jetpack, dateStart, dateEnd)) {
       return res.status(400).send(Boom.badRequest('Jetpack already booked'));
     }
 
